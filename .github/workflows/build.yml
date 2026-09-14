@@ -17,10 +17,18 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Preparar projeto
+      - name: Extrair projeto
         run: |
-          unzip -q lampiao-cs4-do-zero.zip
-          cd lampiao-cs4
+          mkdir projeto
+          unzip -q lampiao-cs4-do-zero.zip -d projeto
+
+      - name: Encontrar projeto
+        run: |
+          find projeto -name build.gradle -type f
+
+      - name: Compilar
+        run: |
+          cd projeto/lampiao-cs4
           chmod +x gradlew
           ./gradlew build --no-daemon
 
@@ -28,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lampiao-cs4
-          path: lampiao-cs4/build/libs/*.jar
+          path: projeto/lampiao-cs4/build/libs/*.jar
